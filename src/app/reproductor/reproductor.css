@@ -1,0 +1,140 @@
+/* Estilos Generales y Layout */
+.reproductor-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f4f4f9; 
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 15px;
+}
+
+h1 {
+    color: #333;
+    font-size: 2em;
+}
+
+/* Contenedor Principal (Flexbox) */
+.contenido-principal {
+    display: flex; 
+    gap: 30px; 
+}
+
+/* Lado Izquierdo: Reproductor de Video */
+.video-reproductor {
+    flex: 2; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.controles-info {
+    width: 100%;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.controles-info h3 {
+    margin: 0 0 10px 0;
+    color: #007bff; 
+}
+
+.botones-navegacion button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.botones-navegacion button:hover {
+    background-color: #0056b3;
+}
+
+/* Lado Derecho: Lista de Reproducción */
+.playlist-sidebar {
+    flex: 1; 
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.playlist-sidebar h2 {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.playlist-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.playlist-sidebar li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.playlist-sidebar li:hover {
+    background-color: #e9ecef; 
+}
+
+/* Estilo para la canción activa */
+.playlist-sidebar li.activa {
+    background-color: #ffe0b2; 
+    font-weight: bold;
+    color: #333;
+    border-left: 5px solid #ff9800; 
+}
+
+/* Elementos dentro de la lista */
+.indice {
+    color: #6c757d;
+    margin-right: 10px;
+}
+
+.titulo-lista {
+    flex-grow: 1; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.indicador {
+    font-size: 1.2em;
+    margin-left: 10px;
+}
+
+/* Media Query: Diseño responsivo para pantallas pequeñas */
+@media (max-width: 900px) {
+    .contenido-principal {
+        flex-direction: column; 
+    }
+    .video-reproductor, .playlist-sidebar {
+        flex: none; /* Desactiva la proporción */
+        width: 100%;
+    }
+    /* Ajusta el tamaño del reproductor para que no sea muy grande en móviles */
+    .video-reproductor youtube-player {
+        width: 100% !important;
+        height: auto !important;
+    }
+}
