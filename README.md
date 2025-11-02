@@ -2,6 +2,18 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.8.
 
+Desarrollando y publicado un proyecto de Angular:
+
+Arquitectura Standalone: Manejo de componentes modernos sin módulos.
+
+Servicios y HTTP: Consumo de datos reales de la YouTube Data API v3.
+
+Binding y Eventos: Control de reproducción y volumen ([ngModel], (click)) y manejo del estado del reproductor ((stateChange)).
+
+Estilización Avanzada: Implementación de un tema de diseño complejo (Windows XP Biselado).
+
+DevOps: Uso de Git y GitHub Pages para la publicación.
+
 ## Development server
 
 To start a local development server, run:
