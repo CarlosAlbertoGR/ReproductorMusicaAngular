@@ -1,0 +1,115 @@
+import { Component, OnInit } from '@angular/core';
+import { Cancion } from '../models/cancion';
+import { YoutubeService } from '../services/youtube.service'; 
+import { YouTubePlayerModule } from '@angular/youtube-player'; // Necesario si es standalone
+import { NgIf, NgFor } from '@angular/common'; // Necesario si es standalone
+
+@Component({
+  selector: 'app-reproductor',
+  // Si tu componente raíz es standalone, este también debe serlo.
+  // Añadimos NgIf, NgFor y YouTubePlayerModule a los imports si es standalone.
+  standalone: true, 
+  imports: [YouTubePlayerModule, NgIf, NgFor], 
+  
+  templateUrl: './reproductor.component.html',
+  styleUrls: ['./reproductor.component.css']
+})
+export class ReproductorComponent implements OnInit {
+
+  // Variables de Estado
+  listaCanciones: Cancion[] = []; // Se llena con datos de la API
+  indiceActual: number = 0;
+  videoIdActual: string = ''; // ID del video actual que se pasa al reproductor
+  
+  player: any; // Instancia del reproductor YT.Player
+  
+  // Configuración del Reproductor
+  playerWidth: number = 600;
+  playerHeight: number = 400;
+
+  constructor(private youtubeService: YoutubeService) { } // Inyección de dependencia
+
+  ngOnInit(): void {
+    // 1. Llama al servicio para obtener la lista de reproducción
+    this.youtubeService.obtenerCancionesDePlaylist().subscribe({
+      next: (canciones: Cancion[]) => {
+        if (canciones.length > 0) {
+          this.listaCanciones = canciones;
+          // 2. Cargamos el primer video de la lista
+          this.cargarVideo(0);
+        } else {
+          console.warn('La lista de reproducción está vacía o no se pudo cargar.');
+        }
+      },
+      error: (err) => {
+        console.error('Error al cargar la playlist de YouTube:', err);
+        // Alerta para el usuario final en caso de fallo de la API
+        alert('Error al cargar la playlist. Verifica tu clave de API y la consola.'); 
+      }
+    });
+
+    // 3. Carga asíncrona del script de la API de IFrame Player
+    if (!(window as any)['YT']) {
+      const tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      document.body.appendChild(tag);
+    }
+  }
+  
+  /**
+   * Carga el video correspondiente al índice dado.
+   * @param indice El índice de la canción en la lista.
+   */
+  cargarVideo(indice: number): void {
+    if (indice >= 0 && indice < this.listaCanciones.length) {
+      this.indiceActual = indice;
+      this.videoIdActual = this.listaCanciones[indice].id;
+      
+      // Si el reproductor ya existe, lo cargamos inmediatamente
+      if (this.player) {
+        this.player.loadVideoById(this.videoIdActual);
+      }
+    }
+  }
+
+  /**
+   * Se ejecuta cuando el reproductor ha terminado de cargar.
+   * Guarda la instancia del reproductor.
+   */
+  guardarPlayer(player: any): void {
+    this.player = player.target;
+  }
+
+  /**
+   * Se ejecuta cuando el estado del reproductor cambia.
+   * Detecta el final del video para pasar al siguiente.
+   */
+  manejarCambioDeEstado(event: any): void {
+    const YT_STATE_ENDED = 0; // Código para "video terminado"
+
+    if (event.data === YT_STATE_ENDED) {
+      this.reproducirSiguiente();
+    }
+  }
+
+  /**
+   * Avanza al siguiente video en la lista de reproducción.
+   */
+  reproducirSiguiente(): void {
+    // Usa el operador módulo (%) para volver al inicio si llegamos al final
+    const siguienteIndice = (this.indiceActual + 1) % this.listaCanciones.length;
+    this.cargarVideo(siguienteIndice);
+  }
+  
+  /**
+   * Vuelve al video anterior en la lista de reproducción.
+   */
+  reproducirAnterior(): void {
+    let anteriorIndice = this.indiceActual - 1;
+    // Si llegamos al principio, volvemos al final de la lista
+    if (anteriorIndice < 0) {
+      anteriorIndice = this.listaCanciones.length - 1;
+    }
+    this.cargarVideo(anteriorIndice);
+  }
+}

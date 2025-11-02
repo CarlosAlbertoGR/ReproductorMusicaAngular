@@ -1,0 +1,12 @@
+
+import { environment } from 'src/environments/environment'; 
+@Injectable({
+  // ...
+})
+export class YoutubeService {
+  private PLAYLIST_ID = 'PLy3QBChBO6zYIpIjpYd8g0GOvCdWbfesd';
+  private API_KEY = environment.youtubeApiKey; 
+  
+  private API_URL = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${this.PLAYLIST_ID}&key=${this.API_KEY}`;
+  // ...
+}

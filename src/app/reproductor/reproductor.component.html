@@ -1,0 +1,76 @@
+<div class="reproductor-container">
+  
+  <header>
+    <h1>🎧 Las Favoritas de Pan Dora AI</h1>
+    <p *ngIf="listaCanciones.length > 0">
+      Lista de reproducción: {{ listaCanciones.length }} canciones
+    </p>
+    <p *ngIf="listaCanciones.length === 0">Cargando lista de reproducción...</p>
+  </header>
+
+  <div class="contenido-principal">
+    
+    <div class="columna-reproductor"> 
+      
+      <div class="video-reproductor">
+        <youtube-player
+          style="display: none;" 
+          [videoId]="videoIdActual"
+          [height]="playerHeight"
+          [width]="playerWidth"
+          (ready)="guardarPlayer($event)"
+          (stateChange)="manejarCambioDeEstado($event)"
+        ></youtube-player>
+      </div>
+
+      <div class="controles-info" *ngIf="listaCanciones.length > 0">
+        <p *ngIf="!estaReproduciendo" style="color: var(--color-oliva-oscuro); font-weight: bold; margin-bottom: 10px; font-size: 0.9em;">
+          Haga clic en ▶️ Play para iniciar el audio.
+        </p>
+        
+        <h3>{{ listaCanciones[indiceActual]?.titulo }}</h3>
+        
+        <div class="botones-navegacion">
+          
+          <button (click)="pausarVideo()" title="Pausar"
+                  [class.pulsado]="!estaReproduciendo"> 
+            ⏸️ Pausa
+          </button>
+          <button (click)="reproducirVideo()" title="Reproducir"
+                  [class.pulsado]="estaReproduciendo"> 
+            ▶️ Play
+          </button>
+          
+          <button (click)="reproducirAnterior()" title="Anterior">&laquo; Anterior</button>
+          <button (click)="reproducirSiguiente()" title="Siguiente">Siguiente &raquo;</button>
+        </div>
+        
+        <div class="control-volumen">
+          <span>Volumen: {{ volumenActual }}%</span>
+          <input type="range" 
+                 min="0" max="100" 
+                 [ngModel]="volumenActual" 
+                 (input)="establecerVolumen($event.target.valueAsNumber)"
+                 style="accent-color: var(--color-oliva-seleccion);" />
+        </div>
+      </div>
+    </div> 
+
+    <div class="playlist-sidebar">
+      <h2>Lista de Canciones</h2>
+      
+      <ul>
+        <li *ngFor="let cancion of listaCanciones; let i = index"
+            [class.activa]="i === indiceActual"
+            (click)="cargarVideo(i)"
+            title="Haga clic para reproducir">
+          
+          <span class="indice">{{ i + 1 }}.</span>
+          <span class="titulo-lista">{{ cancion.titulo }}</span>
+          <span *ngIf="i === indiceActual" class="indicador">▶️</span>
+        </li>
+      </ul>
+    </div> 
+
+  </div> 
+</div>

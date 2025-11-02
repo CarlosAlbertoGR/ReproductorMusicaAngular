@@ -1,12 +1,11 @@
 
 :root {
-    --color-fondo-principal: #ECE9D8; 
+    --color-fondo-principal: #808080; 
     --color-borde-oscuro: #808080;   
-    --color-borde-claro: #FFFFFF;   
-    --color-oliva-oscuro: #5C624E; 
+    --color-borde-claro: #FFFFFF;    
+    --color-oliva-oscuro: #5C624E;  
     --color-oliva-claro: #B1B59C;   
     --color-oliva-seleccion: #617351; 
-    
     --color-texto-botones: #000000;
     --color-fondo-lista: #FFFFFF;
 }
@@ -19,6 +18,7 @@
     background-color: var(--color-fondo-principal);
     font-family: Tahoma, sans-serif; 
     color: var(--color-texto-botones);
+
     border-style: solid;
     border-width: 1px;
     border-color: var(--color-borde-claro) var(--color-borde-oscuro) var(--color-borde-oscuro) var(--color-borde-claro);
@@ -27,25 +27,23 @@
 
 header {
     background: linear-gradient(to right, #919488, #C2C3AE);
-    color: white;
+    color: Black;
     text-align: left;
     padding: 3px 6px;
     margin-bottom: 5px;
     border-bottom: 1px solid var(--color-borde-oscuro);
-    border-top: 1px solid var(--color-borde-oscuro); 
+    border-top: 1px solid var(--color-borde-oscuro);
 }
 
 header h1 {
     font-size: 1em;
     font-weight: bold;
-    color: var(--color-oliva-oscuro); 
+    color: var(--color-oliva-oscuro);
     margin: 0;
 }
 
-header p {
-    color: var(--color-oliva-oscuro);
-    margin-top: 5px;
-    font-size: 0.9em;
+.columna-reproductor {
+    width: 100%; 
 }
 
 .controles-info {
@@ -64,7 +62,7 @@ header p {
 }
 
 .botones-navegacion button {
-    padding: 3px 8px;
+    padding: 3px 12px;
     margin: 5px 5px;
     background-color: var(--color-fondo-principal);
     color: var(--color-texto-botones);
@@ -72,18 +70,49 @@ header p {
     font-size: 0.9em;
     font-weight: normal;
 
+    border-radius: 12px; 
+
     border-style: solid;
     border-width: 1px;
     border-color: var(--color-borde-claro) var(--color-borde-oscuro) var(--color-borde-oscuro) var(--color-borde-claro);
+    box-shadow: 0 0 0 0;
 }
 
 .botones-navegacion button:active {
     border-color: var(--color-borde-oscuro) var(--color-borde-claro) var(--color-borde-claro) var(--color-borde-oscuro);
 }
+.botones-navegacion button.pulsado {
+    border-color: var(--color-borde-oscuro) var(--color-borde-claro) var(--color-borde-claro) var(--color-borde-oscuro);
+}
+.control-volumen {
+    margin-top: 10px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.control-volumen span {
+    font-size: 0.8em;
+    color: var(--color-oliva-oscuro);
+}
+
+.control-volumen input[type="range"] {
+    accent-color: var(--color-oliva-seleccion); 
+    width: 100px; 
+}
+
+.contenido-principal {
+    display: flex;
+    flex-direction: column; 
+    gap: 10px;
+    padding: 5px; 
+}
 
 .playlist-sidebar {
-    flex: 1; 
-    background-color: var(--color-fondo-lista); 
+    width: 100%; 
+    background-color: var(--color-fondo-lista);
     padding: 5px;
     border: 1px inset var(--color-borde-oscuro); 
     height: 250px; 
@@ -113,24 +142,14 @@ header p {
 
 .playlist-sidebar li.activa {
     background-color: var(--color-oliva-seleccion); 
-    color: white;
+    color: black; 
     font-weight: bold;
 }
 
-.control-volumen {
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-.control-volumen input[type="range"] {
-    accent-color: var(--color-oliva-oscuro);
-}
-
-.control-volumen span {
-    font-size: 0.8em;
+.playlist-sidebar li.activa .indice, 
+.playlist-sidebar li.activa .titulo-lista, 
+.playlist-sidebar li.activa .indicador {
+    color: Black; 
 }
 
 .video-reproductor youtube-player {
@@ -139,6 +158,6 @@ header p {
 
 @media (max-width: 750px) {
     .contenido-principal {
-        flex-direction: column; 
+        width: 100%;
     }
 }
